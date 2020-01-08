@@ -21,7 +21,10 @@ That's the back-story of this analysis. This analysis is meant to get an idea of
 
 ## Warning
 
-Again, word of warning: All data and analyses are biased. Take everything you'll read here (and to be fair, what you read anywhere) with a grain of salt. For simplicitly I'll say "what we think of...", but I don't **really** mean that.
+Again, word of warning: All data and analyses are biased. 
+Take everything you'll read here (and to be fair, what you read anywhere) with a grain of salt. 
+For simplicitly I'll saying things like "what we think of..." or "who do we most...", etc.
+But I don't **really** mean that.
 
 ## Resources
 
