@@ -231,3 +231,18 @@ storing the results for each if the results were non-empty.
 
 Then, it was just a matter of pulling this data into memory, formatting it a bit, and creating a pandas dataframe that I could then interrogate.
  
+# Resources you can find here
+
+The code to do this analysis yourself, from scratch here: `data_acquisition.py`.
+
+The jupyter notebook I actually used when I developed this: `01 - Demonyms and adjectives - why are the french so....ipynb`
+ 
+Note you'll need to pip install py2store if you haven't already.
+
+In the `data` folder you'll find
+* country_demonym.p: A pickle of a dataframe of countries and corresponding demonyms
+* country_demonym.xlsx: The same as above, but in excel form
+* demonym_suggested_characteristics.p: A pickle of 73 demonyms and auto-suggestion information, including characteristics. 
+* what_we_think_about_demonyns.xlsx: An excel containing various statistics about demonyms and their (perceived) characteristics
+ 
+

@@ -147,7 +147,14 @@ def acquire_auto_suggestions(demonyms=dflt_demonyms):
 def suggestions_df():
     s = QuickJsonStore(suggestions_rootdir)
     if len(s) == 0:
-        acquire_auto_suggestions()
+        saved_df_pickle_file = os.path.join('data', 'demonym_suggested_characteristics.p')
+        if os.path.isfile(saved_df_pickle_file):
+            sdff = pd.read_pickle(saved_df_pickle_file)
+            print(f"{suggestions_rootdir}, but I found a {saved_df_pickle_file} pickle file, "
+                  f"so returning the df saved there")
+            return sdff
+        else:
+            acquire_auto_suggestions()
 
     sdf = list()
     for demonym, r in s.items():
