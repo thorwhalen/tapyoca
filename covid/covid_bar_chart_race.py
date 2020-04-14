@@ -200,6 +200,13 @@ def instructions_to_make_bar_chart_race():
         (b) If you're updating a graph, go to it
     (3) Upload the data you've created (or updated) in (1)
     (4) Play with the settings to get it right
+    
+    Here are examples of graphs I've generated with this module:
+    
+    - Confirmed cases (by country): https://public.flourish.studio/visualisation/1704821/
+    - Deaths (by country): https://public.flourish.studio/visualisation/1705644/
+    - US Confirmed cases (by state): https://public.flourish.studio/visualisation/1794768/
+    - US Deaths (by state): https://public.flourish.studio/visualisation/1794797/
     """)
 
 
