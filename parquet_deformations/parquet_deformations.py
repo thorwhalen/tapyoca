@@ -397,6 +397,19 @@ def _name_from_two_strings(str1, str2):
 
 def mk_deformation_image(start_im, end_im, n_steps=7, save_to_file=None,
                          kind=None, coordinate_mapping_maker=knn_coordinates_mapping):
+    """Make an image that deforms one image to another, gradually.
+
+    :param start_im: Image or word
+    :param end_im: Image or word
+    :param n_steps: Number of steps from start to end image
+    :param save_to_file: path to file to save too (if not given, will just return the image object)
+    :param kind: 'gif', 'horizontal_stack', or 'vertical_stack'
+    :param coordinate_mapping_maker: A function that will return the mapping between start and end.
+        This function should return a pair (from_coord, to_coord) of aligned matrices whose
+        2 columns are the the (x, y) coordinates, and the rows represent aligned positions that
+        should be mapped.
+    :return:
+    """
     coordinate_mapping_maker = get_coordinate_mapping_maker(coordinate_mapping_maker)
     if kind is None:
         if save_to_file is not None:
