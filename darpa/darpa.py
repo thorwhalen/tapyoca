@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from glom import Spec
 from dateutil.parser import parse as dateutil_parse
 import re
-from py2mint.util import inject_method
+from i2.util import inject_method
 from py2misc.py2request.py2request import Py2Request, UrlMethodSpecsMaker
 from functools import lru_cache
 
