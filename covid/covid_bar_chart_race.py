@@ -36,7 +36,7 @@ DFLT_DATA_SOURCES_DIR = '~/ddir/my_sources'
 def get_data_sources(data_sources=DFLT_DATA_SOURCES_DIR):
     if isinstance(data_sources, str):
         my_local_cache = fullpath(data_sources)
-        CachedFuncReader = mk_cached_store(FuncReader, QuickPickleStore(my_local_cache))
+        CachedFuncReader = mk_cached_store(FuncReader, cache=QuickPickleStore(my_local_cache))
         data_sources = CachedFuncReader([country_flag_image_url,
                                          kaggle_coronavirus_dataset,
                                          city_population_in_time])
