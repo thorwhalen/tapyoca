@@ -33,7 +33,7 @@ more_setup_kwargs = dict(
 # import os
 # name = os.path.split(os.path.dirname(__file__))[-1]
 
-version = None  # edit if you want to specify the version here (should be a string)
+version = '0.0.1'  # edit if you want to specify the version here (should be a string)
 if version is None:
     try:
         from pip_packaging import next_version_for_package
