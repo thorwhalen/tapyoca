@@ -64,6 +64,8 @@ class WordPartitions:
     def partition_score(self, word):
         return len(list(self.word_partitions(word)))
 
+    gluglu = partition_score
+
     def partition_score_greater_than_one(self, word):
         for i, w in enumerate(self.word_partitions(word)):
             if i > 0:
