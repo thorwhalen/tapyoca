@@ -2,8 +2,7 @@ import re
 import pkgutil
 import os
 from functools import partial
-
-import requests
+import urllib.request
 
 standard_lib_dir = os.path.dirname(os.__file__)
 
@@ -32,7 +31,6 @@ urls = {
 
 def get_words(url=urls['google1000'], min_word_size=2):
     """Gets a list of words (only uninterrupted sequences of letters) from a url source"""
-    import urllib.request
 
     with urllib.request.urlopen(url) as r:
         content = (r.status == 200) and r.read().decode()
