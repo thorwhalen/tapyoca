@@ -1,0 +1,354 @@
+addaudithook
+	add audit ho ok
+	add audit hook
+addclosehook
+	add close ho ok
+	add close hook
+addpackage
+	add pack age
+	add package
+addsitepackages
+	add site pack ages
+	add site packages
+addusersitepackages
+	add user site pack ages
+	add user site packages
+altinstall
+	alt ins tall
+	alt install
+bindtextdomain
+	bind text do main
+	bind text domain
+bootstrap
+	boot strap
+	boots trap
+breakpointhook
+	break point ho ok
+	break point hook
+bytearray
+	by tear ray
+	byte array
+closehook
+	close ho ok
+	close hook
+commonprefix
+	common pre fix
+	common prefix
+contextmanager
+	con text manager
+	context manager
+defaultaction
+	default act ion
+	default action
+digestmod
+	dig est mod
+	digest mod
+displayhook
+	display ho ok
+	display hook
+doupdate
+	do up date
+	do update
+excepthook
+	except ho ok
+	except hook
+extendleft
+	ext end left
+	extend left
+extrasaction
+	extras act ion
+	extras action
+findfactor
+	find fact or
+	find factor
+findparam
+	find pa ram
+	find par am
+formatannotation
+	for mat an not at ion
+	for mat annotation
+	form at an not at ion
+	form at annotation
+	format an not at ion
+	format annotation
+formatannotationrelativeto
+	for mat an not at ion relative to
+	for mat annotation relative to
+	form at an not at ion relative to
+	form at annotation relative to
+	format an not at ion relative to
+	format annotation relative to
+formatdate
+	for mat date
+	form at date
+	format date
+formatday
+	for mat day
+	form at day
+	format day
+formatmonth
+	for mat month
+	form at month
+	format month
+formatmonthname
+	for mat month name
+	form at month name
+	format month name
+formatreturns
+	for mat re turns
+	for mat returns
+	form at re turns
+	form at returns
+	format re turns
+	format returns
+formatstring
+	for mat string
+	form at string
+	format string
+formattree
+	for mat tree
+	form at tree
+	format tree
+formatvalue
+	for mat value
+	form at value
+	format value
+formatwarning
+	for mat warning
+	form at warning
+	format warning
+formatweek
+	for mat week
+	form at week
+	format week
+formatweekday
+	for mat week day
+	form at week day
+	format week day
+formatweekheader
+	for mat week header
+	form at week header
+	format week header
+formatyear
+	for mat year
+	form at year
+	format year
+formatyearpage
+	for mat year page
+	form at year page
+	format year page
+fromfiledate
+	from file date
+	from filed ate
+getannotation
+	get an not at ion
+	get annotation
+getcapabilities
+	get cap abilities
+	get capabilities
+getcontext
+	get con text
+	get context
+getgeneratorstate
+	get gene rat or state
+	get generator state
+getitem
+	get it em
+	get item
+getoutput
+	get out put
+	get output
+getpreferredencoding
+	get prefer re den coding
+	get prefer red encoding
+	get preferred encoding
+getprofile
+	get pro file
+	get profile
+getsitepackages
+	get site pack ages
+	get site packages
+getstatusoutput
+	get status out put
+	get status output
+getswitchinterval
+	get switch interval
+	gets witch interval
+getusersitepackages
+	get user site pack ages
+	get user site packages
+importfile
+	im port file
+	import file
+isdigit
+	is dig it
+	is digit
+isgenerator
+	is gene rat or
+	is generator
+isgeneratorfunction
+	is gene rat or function
+	is generator function
+iskeyword
+	is key word
+	is keyword
+ispackage
+	is pack age
+	is package
+isprintable
+	is print able
+	is printable
+isupper
+	is up per
+	is upper
+itemsize
+	it em size
+	item size
+listkeywords
+	list key words
+	list keywords
+localcontext
+	local con text
+	local context
+makepipeline
+	make pipe line
+	make pipeline
+namespace
+	name space
+	names pace
+nodelay
+	no delay
+	node lay
+nullcontext
+	null con text
+	null context
+openhook
+	open ho ok
+	open hook
+optionflags
+	opt ion flags
+	option flags
+packagename
+	pack age name
+	package name
+param
+	pa ram
+	par am
+paramstyle
+	pa ram style
+	par am style
+popitem
+	pop it em
+	pop item
+preformat
+	pre for mat
+	pre form at
+	pre format
+putrequest
+	put re quest
+	put request
+randbelow
+	rand be low
+	rand below
+readinto
+	read in to
+	read into
+reconfigure
+	re con figure
+	re configure
+redisplay
+	re display
+	red is play
+redrawwin
+	re draw win
+	red raw win
+removeduppaths
+	re moved up paths
+	removed up paths
+reporthook
+	re port ho ok
+	re port hook
+	report ho ok
+	report hook
+resetbuffer
+	re set buffer
+	reset buffer
+resetlocale
+	re set locale
+	reset locale
+resetwarnings
+	re set warnings
+	reset warnings
+returncode
+	re turn code
+	return code
+safeimport
+	safe im port
+	safe import
+setannotation
+	set an not at ion
+	set annotation
+setcontext
+	set con text
+	set context
+setcopyright
+	set copy right
+	set copyright
+setinputsizes
+	set in put sizes
+	set input sizes
+setitem
+	set it em
+	set item
+setoutputsize
+	set out put size
+	set output size
+setpassword
+	set pass word
+	set password
+setprofile
+	set pro file
+	set profile
+setswitchinterval
+	set switch interval
+	sets witch interval
+setupterm
+	set up term
+	setup term
+singledispatch
+	sing led is patch
+	single dispatch
+singledispatchmethod
+	sing led is patch method
+	single dispatch method
+sourcehook
+	source ho ok
+	source hook
+startupinfo
+	start up info
+	startup info
+targetname
+	tar get name
+	target name
+targetpath
+	tar get path
+	target path
+textdomain
+	text do main
+	text domain
+theyear
+	the year
+	they ear
+tofiledate
+	to file date
+	to filed ate
+updatecache
+	up date cache
+	update cache
+withitem
+	wit hit em
+	with it em
+	with item
+zipimport
+	zip im port
+	zip import
