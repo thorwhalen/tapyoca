@@ -35,7 +35,7 @@ start_and_end_image(start_im, end_im)
 
 
 
-![png](img/outputs/output_5_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_5_0.png)
 
 
 
@@ -48,7 +48,7 @@ im
 
 
 
-![png](img/outputs/output_6_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_6_0.png)
 
 
 
@@ -61,7 +61,7 @@ im
 
 
 
-![png](img/outputs/output_7_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_7_0.png)
 
 
 
@@ -123,7 +123,7 @@ start_and_end_image(start_im, end_im).resize((600, 200))
 
 
 
-![png](img/outputs/output_12_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_12_0.png)
 
 
 
@@ -136,7 +136,7 @@ im
 
 
 
-![png](img/outputs/output_13_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_13_0.png)
 
 
 
@@ -166,7 +166,7 @@ start_and_end_image(start_im.resize((200, 500)), end_im.resize((200, 500)))
 
 
 
-![png](img/outputs/output_16_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_16_0.png)
 
 
 
@@ -179,7 +179,7 @@ im
 
 
 
-![png](img/outputs/output_17_0.png)
+![png](tapyoca/parquet_deformations/img/outputs/output_17_0.png)
 
 
 
