@@ -9,4 +9,4 @@ References:
 
 """
 
-from parquet_deformations import mk_deformation_image
+from .parquet_deformations import mk_deformation_image, concatenate_images, concatenate_images_grid

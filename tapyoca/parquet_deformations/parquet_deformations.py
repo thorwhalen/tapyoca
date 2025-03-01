@@ -16,6 +16,7 @@ Here, the mapping is computed with a knn-based algo (essentially the union of th
 and end in start).
 
 """
+
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -25,11 +26,12 @@ from io import BytesIO
 
 import itertools
 
-from py_fonts import courrier_ttf
 
 def get_image(source):
     if isinstance(source, np.ndarray):
         source = image_from_matrix(source)
+    elif isinstance(source, bytes):
+        source = Image.open(BytesIO(source))
     elif isinstance(source, str):
         if os.path.isfile(source):
             source = Image.open(source)
@@ -58,7 +60,9 @@ def knn_coordinates_mapping(start_mat, end_mat):
     start_to_end_knn_idx = np.ravel(start_to_end_knn_idx)
 
     # but not all end_coords are ensured to be covered...
-    unmatched_end_idx = list(set(range(len(end_coords))).difference(start_to_end_knn_idx))
+    unmatched_end_idx = list(
+        set(range(len(end_coords))).difference(start_to_end_knn_idx)
+    )
     # print(len(unmatched_end_idx))
     unmatched_end_coords = end_coords[unmatched_end_idx]
     # ... so match remaining end coordinates to their closest start coord
@@ -101,10 +105,14 @@ def scan_mapping(start_mat, end_mat):
     start_coords, end_coords = coordinates(start_mat, end_mat)
     if len(start_coords) >= len(end_coords):
         from_coord = np.array(start_coords)
-        to_coord = np.array(list(itertools.islice(itertools.cycle(end_coords), len(start_coords))))
+        to_coord = np.array(
+            list(itertools.islice(itertools.cycle(end_coords), len(start_coords)))
+        )
     else:
         to_coord = np.array(end_coords)
-        from_coord = np.array(list(itertools.islice(itertools.cycle(start_coords), len(end_coords))))
+        from_coord = np.array(
+            list(itertools.islice(itertools.cycle(start_coords), len(end_coords)))
+        )
 
     assert from_coord.shape == to_coord.shape, "from_coord.shape == to_coord.shape"
 
@@ -133,7 +141,9 @@ def get_coordinate_mapping_maker(coordinate_mapping_maker=None):
         if coordinate_mapping_maker in coordinate_mapping_maker_for:
             return coordinate_mapping_maker_for[coordinate_mapping_maker]
         else:
-            raise ValueError(f"Didn't find the coordinate_mapping_maker for: {coordinate_mapping_maker}")
+            raise ValueError(
+                f"Didn't find the coordinate_mapping_maker for: {coordinate_mapping_maker}"
+            )
 
 
 def intify(x):
@@ -180,7 +190,9 @@ def separate_stationary_coordinates(from_coord, to_coord):
 
 def generate_coord_path(stationary_coords, from_coord, to_coord, n_steps=5, shape=None):
     if shape is None:
-        shape = (np.vstack((stationary_coords, from_coord, to_coord)).max(axis=0) + 1).shape
+        shape = (
+            np.vstack((stationary_coords, from_coord, to_coord)).max(axis=0) + 1
+        ).shape
 
     for coords in np.linspace(from_coord, to_coord, n_steps):
         int_coords = intify(coords)  # intify
@@ -190,7 +202,9 @@ def generate_coord_path(stationary_coords, from_coord, to_coord, n_steps=5, shap
         yield mask
 
 
-def generate_image_path(start_im, end_im, n_steps=5, coordinate_mapping_maker=knn_coordinates_mapping):
+def generate_image_path(
+    start_im, end_im, n_steps=5, coordinate_mapping_maker=knn_coordinates_mapping
+):
     """
     Generate intermediate images between two given images.
 
@@ -217,15 +231,17 @@ def generate_image_path(start_im, end_im, n_steps=5, coordinate_mapping_maker=kn
     # find the coordinates of non-zero entries, and map the start to end coordinates
     from_coord, to_coord = coordinate_mapping_maker(start_im, end_im)
     # separate stationary coordinates from those that need to move
-    stationary_coords, from_coord, to_coord = \
-        separate_stationary_coordinates(from_coord, to_coord)
+    stationary_coords, from_coord, to_coord = separate_stationary_coordinates(
+        from_coord, to_coord
+    )
 
     shape = (shape[1], shape[0])
-    yield from generate_coord_path(stationary_coords, from_coord, to_coord,
-                                   n_steps=n_steps, shape=shape)
+    yield from generate_coord_path(
+        stationary_coords, from_coord, to_coord, n_steps=n_steps, shape=shape
+    )
 
 
-def image_of_text(text, pixel_height=600, saveas=None, font=courrier_ttf, font_size=100):
+def image_of_text(text, pixel_height=600, saveas=None, font=None, font_size=100):
     """
     Get an image of a string.
 
@@ -236,6 +252,11 @@ def image_of_text(text, pixel_height=600, saveas=None, font=courrier_ttf, font_s
     :param font_size: As it says.
     :return:
     """
+    if font is None:
+        from py_fonts import courrier_ttf
+
+        font = courrier_ttf
+
     if isinstance(font, bytes):
         font = BytesIO(font)
     correction_factor = int(font_size / 12)  # got 1.2 by trial and error with courrier
@@ -246,8 +267,13 @@ def image_of_text(text, pixel_height=600, saveas=None, font=courrier_ttf, font_s
     text_length = len(text)
 
     # and here, some trial and error correction of the size...
-    img = Image.new('1', (int(correction_factor * (text_width + text_length * 1.3)),
-                          int(correction_factor * text_height)))
+    img = Image.new(
+        '1',
+        (
+            int(correction_factor * (text_width + text_length * 1.3)),
+            int(correction_factor * text_height),
+        ),
+    )
     d = ImageDraw.Draw(img)
     d.text((0, 0), text, fill=255, font=font)
 
@@ -322,6 +348,50 @@ def concatenate_images(images, axis=0, common_shape=None):
     return imgs_comb
 
 
+def concatenate_images_grid(images, n_col=2, common_shape=None):
+    """
+    Arrange images in a grid with specified number of columns.
+
+    :param images: List of images (PIL.Image.Image, numpy array, or filepath)
+    :param n_col: Number of columns in the grid
+    :param common_shape: Common shape to resize all images to before combining
+    :return: PIL Image with images arranged in a grid
+    """
+    images = list(map(get_image, images))
+    n_images = len(images)
+
+    if n_images == 0:
+        raise ValueError("No images provided")
+
+    # Calculate number of rows needed
+    n_row = (n_images + n_col - 1) // n_col  # Ceiling division
+
+    # Determine common shape if not provided
+    if common_shape is None:
+        common_shape = sorted([(np.sum(i.size), i.size) for i in images])[0][1]
+
+    # Create rows of images
+    rows = []
+    for i in range(n_row):
+        start_idx = i * n_col
+        end_idx = min(start_idx + n_col, n_images)
+        row_images = images[start_idx:end_idx]
+
+        # If this is the last row and it's not full, pad with blank images
+        if end_idx - start_idx < n_col:
+            blank_image = Image.new('RGB', common_shape, (255, 255, 255))
+            row_images.extend([blank_image] * (n_col - (end_idx - start_idx)))
+
+        # Concatenate images in this row
+        row = concatenate_images(row_images, axis=1, common_shape=common_shape)
+        rows.append(row)
+
+    # Concatenate all rows vertically
+    grid = concatenate_images(rows, axis=0)
+
+    return grid
+
+
 def permute(x):
     c = list()
     for i in np.random.permutation(len(x)):
@@ -329,7 +399,9 @@ def permute(x):
     return c
 
 
-def make_start_and_end_images_with_words(start_words, end_words, perm: bool = False, repeat=1, size=150):
+def make_start_and_end_images_with_words(
+    start_words, end_words, perm: bool = False, repeat=1, size=150
+):
     """
     Make two images from two sets of words.
     :param start_words: Words to use for the first image.
@@ -374,7 +446,9 @@ def start_and_end_image(start_im, end_im, pad_factor=1):
     end_im = get_image(end_im)
 
     size = start_im.size
-    pad_im = image_from_matrix(intify(np.zeros((int(size[1] * pad_factor), int(size[1] * 1)))))
+    pad_im = image_from_matrix(
+        intify(np.zeros((int(size[1] * pad_factor), int(size[1] * 1))))
+    )
     try:
         return concatenate_images([start_im, pad_im, end_im], axis=1)
     except:
@@ -394,8 +468,14 @@ def _name_from_two_strings(str1, str2):
     return f"{name1} - {name2}"
 
 
-def mk_deformation_image(start_im, end_im, n_steps=7, save_to_file=None,
-                         kind=None, coordinate_mapping_maker=knn_coordinates_mapping):
+def mk_deformation_image(
+    start_im,
+    end_im,
+    n_steps=7,
+    save_to_file=None,
+    kind=None,
+    coordinate_mapping_maker=knn_coordinates_mapping,
+):
     """Make an image that deforms one image to another, gradually.
 
     :param start_im: Image or word
@@ -420,23 +500,51 @@ def mk_deformation_image(start_im, end_im, n_steps=7, save_to_file=None,
         else:
             kind = 'horizontal_stack'
     if kind in {'horizontal_stack', 'stacked', 'horizontal', 'h'}:
-        return mk_stacked_deformation_image(start_im, end_im, n_steps=n_steps, save_to_file=save_to_file,
-                                            coordinate_mapping_maker=coordinate_mapping_maker, axis=1)
+        return mk_stacked_deformation_image(
+            start_im,
+            end_im,
+            n_steps=n_steps,
+            save_to_file=save_to_file,
+            coordinate_mapping_maker=coordinate_mapping_maker,
+            axis=1,
+        )
     elif kind in {'vertical_stack', 'vertical', 'v'}:
-        return mk_stacked_deformation_image(start_im, end_im, n_steps=n_steps, save_to_file=save_to_file,
-                                            coordinate_mapping_maker=coordinate_mapping_maker, axis=0)
+        return mk_stacked_deformation_image(
+            start_im,
+            end_im,
+            n_steps=n_steps,
+            save_to_file=save_to_file,
+            coordinate_mapping_maker=coordinate_mapping_maker,
+            axis=0,
+        )
     elif kind in {'gif', 'animated'}:
-        return mk_gif_of_deformations(start_im, end_im, n_steps=n_steps, save_to_file=save_to_file,
-                                      coordinate_mapping_maker=coordinate_mapping_maker)
+        return mk_gif_of_deformations(
+            start_im,
+            end_im,
+            n_steps=n_steps,
+            save_to_file=save_to_file,
+            coordinate_mapping_maker=coordinate_mapping_maker,
+        )
     else:
         raise ValueError(f"Unrecognized kind: {kind}")
 
 
-def mk_stacked_deformation_image(start_im, end_im, n_steps=7, save_to_file=None,
-                                 coordinate_mapping_maker=knn_coordinates_mapping, axis=1):
+def mk_stacked_deformation_image(
+    start_im,
+    end_im,
+    n_steps=7,
+    save_to_file=None,
+    coordinate_mapping_maker=knn_coordinates_mapping,
+    axis=1,
+):
     coordinate_mapping_maker = get_coordinate_mapping_maker(coordinate_mapping_maker)
     mm = list()
-    for m in generate_image_path(start_im, end_im, n_steps=n_steps, coordinate_mapping_maker=coordinate_mapping_maker):
+    for m in generate_image_path(
+        start_im,
+        end_im,
+        n_steps=n_steps,
+        coordinate_mapping_maker=coordinate_mapping_maker,
+    ):
         mm.append(m)
     if axis == 1:
         mm = np.hstack(mm)
@@ -450,8 +558,13 @@ def mk_stacked_deformation_image(start_im, end_im, n_steps=7, save_to_file=None,
         im.save(save_to_file)
 
 
-def mk_gif_of_deformations(start_im, end_im, n_steps=10, save_to_file='deformation.gif',
-                           coordinate_mapping_maker=knn_coordinates_mapping):
+def mk_gif_of_deformations(
+    start_im,
+    end_im,
+    n_steps=10,
+    save_to_file='deformation.gif',
+    coordinate_mapping_maker=knn_coordinates_mapping,
+):
     """
     Make a gif file exhibiting the deformation from one image to another
     :param start_im: Start image (PIL.Image.Image, numpy array, or filepath)
@@ -470,7 +583,12 @@ def mk_gif_of_deformations(start_im, end_im, n_steps=10, save_to_file='deformati
     end_im = get_image(end_im)
 
     tmp_dir = gettempdir()
-    it = generate_image_path(start_im, end_im, n_steps=n_steps, coordinate_mapping_maker=coordinate_mapping_maker)
+    it = generate_image_path(
+        start_im,
+        end_im,
+        n_steps=n_steps,
+        coordinate_mapping_maker=coordinate_mapping_maker,
+    )
     filenames = list()
     for i, iim in enumerate(it):
         png_file = os.path.join(tmp_dir, f"im_{i:02.0f}.png")
@@ -507,14 +625,19 @@ def mk_gif_deformations_from_strings(str1, str2, n_steps=20, save_to_file=None):
 
 def overlay(background_im, overlay_im, alpha=0.5):
     """Overlay an image on a background image"""
-    return Image.blend(background_im.convert('RGBA'), overlay_im.convert('RGBA'), alpha=alpha)
+    return Image.blend(
+        background_im.convert('RGBA'), overlay_im.convert('RGBA'), alpha=alpha
+    )
 
 
 def display_gif(gif_file):
     """Display gif in ipython notebook"""
     from IPython import display
+
     # Note: the random part is so that an image will be refreshed when the file content changes
-    return display.HTML('<img src="{}?{}">'.format(gif_file, np.random.randint(0, int(1e8))))
+    return display.HTML(
+        '<img src="{}?{}">'.format(gif_file, np.random.randint(0, int(1e8)))
+    )
 
 
 if __name__ == '__main__':
