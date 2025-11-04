@@ -1,6 +1,126 @@
 # tapyoca
 A medley of small projects
 
+# phonecode
+
+Create pronounceable encodings for coordinates using phoneme-based mappings. 
+Useful for communicating grid positions verbally (e.g., for Codenames board game strategy).
+
+## Overview
+
+The `phonecode` module maps grid coordinates to consonant-vowel phoneme pairs, then finds English words containing those phonemes. This creates memorable, pronounceable codes for positions.
+
+For a 5×5 grid:
+- Each coordinate `(row, col)` maps to a consonant-vowel pair like `(P, IY)`
+- Words like "peace" or "pizza" encode that coordinate because they contain those phonemes
+- Multi-coordinate combinations can encode 2+ positions in a single word
+
+## Quick Start
+
+```python
+from tapyoca import phonecode
+
+# One-time setup: download CMU pronunciation dictionary
+phonecode.download_required_data()
+
+# Create mapping for single coords and 2-coord pairs
+result = phonecode.create_5x5_codenames_mapping(
+    words_per_coord=2,      # Find 2 words per coordinate
+    check_multi_coord=True, # Enable 2-coord combinations
+    max_multi_coord=2       # Limit to pairs
+)
+
+# Display single-coordinate words in a 5×5 grid
+phonecode.print_coord_words_grid(result)
+
+# Show statistics for 2-coordinate words
+phonecode.print_two_coord_summary(result)
+
+# Display detailed table of 2-coord words
+phonecode.print_two_coord_words_table(result, max_combos=20)
+```
+
+## Decoding Words
+
+The codec uses **sequential phoneme analysis** to decode words unambiguously:
+
+```python
+# Create a codec for encoding/decoding
+codec = phonecode.CoordsWordCodec(
+    result['mapping'], 
+    result['single_coord_words']
+)
+
+# Decode a word to coordinates
+word = "peace"
+coords, is_valid = codec.decode_word_to_coords(word)
+print(f"{word} → {coords}")
+# Output: peace → [(0, 0)]  # P-IY coordinate
+
+# Validate that a word encodes specific coordinates
+is_valid, msg = codec.validate_word_for_coords(
+    "safety", 
+    [(4, 0), (3, 1)]  # S-IY and F-AE
+)
+print(msg)
+```
+
+## Finding Words for Coordinates
+
+```python
+# Find words that encode specific coordinates
+target_coords = [(0, 0), (1, 1)]  # P-IY and T-AE
+
+words = codec.find_valid_words_for_coords(target_coords, max_results=5)
+
+for word, phonemes, freq in words:
+    decoded, valid = codec.decode_word_to_coords(word, expected_num_coords=2)
+    print(f"  {word:15s} → {decoded}")
+```
+
+## Key Features
+
+- **Sequential decoding**: Avoids ambiguity by scanning phonemes left-to-right
+- **Round-trip validation**: Ensures words correctly encode expected coordinates
+- **Frequency ranking**: Uses word frequency data to find common, memorable words
+- **Comprehensive coverage**: Finds words for 300 possible 2-coordinate combinations
+- **Display utilities**: Grid view for single coords, tables for multi-coord combinations
+
+## Data Sources
+
+- **CMU Pronouncing Dictionary**: 123,455+ English words with phoneme transcriptions
+- **Word Frequency**: 50,000 common words from COCA corpus for ranking results
+
+## Default Configuration
+
+```python
+# Default phonemes for 5×5 grid
+consonants = ['P', 'T', 'K', 'F', 'S']  # 5 voiceless consonants
+vowels = ['IY', 'AE', 'AA', 'OW', 'UW']  # 5 distinct vowels
+
+# Default search parameters
+words_per_coord = 1         # Words per single coordinate
+max_multi_coord = 2         # Maximum coordinates per word
+check_multi_coord = True    # Enable multi-coord search
+```
+
+## Example Notebook
+
+See `tapyoca/phonecode/phonecode.ipynb` for a complete interactive demo showing:
+- Setup and data download
+- Creating mappings
+- Displaying results in grids and tables
+- Encoding and decoding words
+- Validation and verification
+
+## Use Cases
+
+- **Codenames strategy**: Verbally communicate card positions to teammates
+- **Grid reference systems**: Create memorable codes for any coordinate system
+- **Educational tools**: Teach phonetics and pronunciation patterns
+- **Password generation**: Create pronounceable position-based passwords
+
+---
 
 # parquet_deformations
 
