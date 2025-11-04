@@ -8,7 +8,7 @@ from tapyoca.tapyoca.agglutination.partitions import WordPartitions
 
 only_letters_p = re.compile('[a-zA-Z]+')
 
-with open(mjoin('standard_lib_module_names.csv'), 'rt') as fp:
+with open(mjoin('standard_lib_module_names.csv')) as fp:
     list_of_builtin_module_names = sorted(set(fp.read().split('\n')) - {'this'})
 
 

@@ -84,7 +84,7 @@ inject_method(dacc, all_tag_listings)
 ########################################################################################################################
 # Data postprocess utils
 
-date_re = re.compile('\d{1,2}/\d{1,2}/\d{4}')
+date_re = re.compile(r'\d{1,2}/\d{1,2}/\d{4}')
 
 
 def parse_date(s: str):

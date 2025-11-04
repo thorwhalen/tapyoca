@@ -124,7 +124,7 @@ def country_data_for_data_kind(data_sources=DFLT_DATA_SOURCES_DIR, kind='confirm
     print_if_verbose(verbose, f"Before data shape: {df.shape}")
 
     # drop some columns we don't need
-    p = re.compile('\d+/\d+/\d+')
+    p = re.compile(r'\d+/\d+/\d+')
 
     assert all(isinstance(x, str) for x in df.columns)
     date_cols = [x for x in df.columns if p.match(x)]

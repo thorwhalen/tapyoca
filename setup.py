@@ -18,7 +18,7 @@ root_dir = os.path.dirname(__file__)
 config_file = os.path.join(root_dir, 'setup.cfg')
 
 c = ConfigParser()
-c.read_file(open(config_file, 'r'))
+c.read_file(open(config_file))
 name = c['metadata']['name']
 root_url = c['metadata']['root_url']
 

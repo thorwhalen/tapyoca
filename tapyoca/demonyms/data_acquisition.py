@@ -14,7 +14,7 @@ root = os.path.expanduser('~/ddir/demonym_adjectives/')
 demonym_url = 'http://www.geography-site.co.uk/pages/countries/demonyms.html'
 
 newline_p = re.compile('\n|\r')
-word_p = re.compile('[\w\-\s]+')
+word_p = re.compile(r'[\w\-\s]+')
 
 # the dflt_demonyms are the only 73 that yielded suggestions results at the time of writing this.
 dflt_demonyms = ('afghan', 'albanian', 'american', 'australian', 'belgian', 'bhutanese', 'brazilian', 'british',
@@ -56,7 +56,7 @@ def _get_complicated_demonyms(demonyms):
     """Function to extract 'complicated' demonyms (to be able to then map them to simpler forms later.
     Namely, this is what was used to create the 'replacements' mapping above.
     """
-    return list(filter(re.compile('\ or\ |\ \-\ |\ also\ ').findall, demonyms))
+    return list(filter(re.compile(r'\ or\ |\ \-\ |\ also\ ').findall, demonyms))
 
 
 def mk_demonym_df_from_source():
@@ -85,7 +85,7 @@ def mk_demonym_df_from_source():
 
 # Auto-suggest slurping #####################
 
-p_filename_chars = re.compile('[^\w\-]')
+p_filename_chars = re.compile(r'[^\w\-]')
 
 
 def filename_of_demonym(demonym):
@@ -181,7 +181,7 @@ def suggestions_df():
     sdff = sdf.iloc[lidx].reset_index(drop=True)
     # print(sdff.shape)
 
-    so_p = re.compile('so\ ')
+    so_p = re.compile(r'so\ ')
 
     def post_process_characteristics(t):
         t = t.strip()

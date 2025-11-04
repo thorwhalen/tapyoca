@@ -636,7 +636,7 @@ def display_gif(gif_file):
 
     # Note: the random part is so that an image will be refreshed when the file content changes
     return display.HTML(
-        '<img src="{}?{}">'.format(gif_file, np.random.randint(0, int(1e8)))
+        f'<img src="{gif_file}?{np.random.randint(0, int(1e8))}">'
     )
 
 

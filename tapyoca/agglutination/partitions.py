@@ -5,7 +5,7 @@ from tapyoca.tapyoca.agglutination import mjoin
 
 
 def get_default_words():
-    with open(mjoin('words_8116.csv'), 'rt') as fp:
+    with open(mjoin('words_8116.csv')) as fp:
         words = set(fp.read().split('\n'))
 
     return words
