@@ -208,9 +208,3 @@ def instructions_to_make_bar_chart_race():
     - US Confirmed cases (by state): https://public.flourish.studio/visualisation/1794768/
     - US Deaths (by state): https://public.flourish.studio/visualisation/1794797/
     """)
-
-
-if __name__ == '__main__':
-    import argh
-
-    argh.dispatch_commands([mk_and_save_covid_data, update_covid_data, instructions_to_make_bar_chart_race])

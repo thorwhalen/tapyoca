@@ -638,12 +638,3 @@ def display_gif(gif_file):
     return display.HTML(
         f'<img src="{gif_file}?{np.random.randint(0, int(1e8))}">'
     )
-
-
-if __name__ == '__main__':
-    import argh
-
-    argh.dispatch_command(mk_deformation_image)
-    # parser = argh.ArghParser()
-    # parser.add_commands([mk_gif_of_deformations, mk_gif_deformations_from_strings])
-    # parser.dispatch()
