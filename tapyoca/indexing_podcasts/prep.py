@@ -25,9 +25,3 @@ def convert_all_mp3s_to_wav(rootdir=DFLT_GRAZE_ROOTDIR, verbose=True):
             if verbose:
                 print(output)
                 print("")
-
-
-if __name__ == '__main__':
-    import argh
-
-    argh.dispatch_commands([convert_all_mp3s_to_wav])
