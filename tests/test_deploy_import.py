@@ -41,3 +41,24 @@ def test_a_failed_build_uploads_nothing(monkeypatch):
         pass
 
     assert calls == [module.BUILD_COMMAND]
+
+
+def test_dist_is_cleaned_before_the_build(tmp_path, monkeypatch):
+    """Stale artifacts in dist/ must be gone before the build runs."""
+    spec = importlib.util.spec_from_file_location("_deploy_clean", DEPLOY_PATH)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    dist = tmp_path / "dist"
+    dist.mkdir()
+    (dist / "old-0.0.1.tar.gz").write_text("stale")
+    monkeypatch.setattr(module, "DIST_DIR", dist)
+    seen = []
+    monkeypatch.setattr(
+        subprocess, "run", lambda cmd, **kw: seen.append((cmd, dist.exists()))
+    )
+
+    module.main()
+
+    assert seen[0] == (module.BUILD_COMMAND, False)
+    assert seen[1][0] == module.UPLOAD_COMMAND
