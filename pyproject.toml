@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tapyoca"
+version = "0.0.7"
+description = "A medley of things that got coded because there was an itch to do so"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{ name = "thorwhalen" }]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/thorwhalen/tapyoca"
+
+[project.optional-dependencies]
+test = ["pytest>=7.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["tapyoca"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.wads.ci]
+project_name = "tapyoca"
+
+[tool.wads.ci.install]
+extras = ["test"]
+
+[tool.wads.ci.commands]
+pre_test = []
+test = []
+post_test = []
+lint = []
+format = []
+
+[tool.wads.ci.env]
+required_envvars = []
+test_envvars = []
+extra_envvars = []
+
+[tool.wads.ci.env.defaults]
+
+[tool.wads.ci.quality.ruff]
+enabled = false
+
+[tool.wads.ci.quality.black]
+enabled = false
+
+[tool.wads.ci.quality.mypy]
+enabled = false
+
+[tool.wads.ci.testing]
+enabled = true
+python_versions = ["3.10", "3.12"]
+pytest_args = ["-v", "--tb=short"]
+coverage_enabled = false
+coverage_threshold = 0
+exclude_paths = ["scrap.py"]
+test_on_windows = false
+
+[tool.wads.ci.metrics]
+enabled = false
+
+[tool.wads.ci.build]
+sdist = true
+wheel = true
+
+# The medley is published by hand with deploy.py; CI only runs the tests.
+[tool.wads.ci.publish]
+enabled = false
+
+[tool.wads.ci.docs]
+enabled = false

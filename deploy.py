@@ -8,7 +8,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-BUILD_COMMAND = (sys.executable, "setup.py", "sdist", "bdist_wheel")
+BUILD_COMMAND = (sys.executable, "-m", "build")
 DIST_DIR = Path("dist")
 UPLOAD_COMMAND = (sys.executable, "-m", "twine", "upload", "dist/*")
 
