@@ -1,10 +1,17 @@
 # tapyoca
-A medley of small projects
+
+A medley of small, independent projects in one package: pronounceable coordinate codes (`phonecode`), parquet deformation images and GIFs (`parquet_deformations`), demonyms, agglutinations, and COVID data tools (`covid`). Each is a submodule, described in its own section below.
+
+```bash
+pip install tapyoca
+```
+
+Quickest start: `from tapyoca import phonecode`, then see the first section. Examples that download data or need your own files are not run by the README checks.
+
 
 # phonecode
 
-Create pronounceable encodings for coordinates using phoneme-based mappings. 
-Useful for communicating grid positions verbally (e.g., for Codenames board game strategy).
+Create pronounceable encodings for coordinates using phoneme-based mappings. Useful for communicating grid positions verbally (e.g., for Codenames board game strategy).
 
 ## Overview
 
@@ -17,6 +24,7 @@ For a 5×5 grid:
 
 ## Quick Start
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 from tapyoca import phonecode
 
@@ -44,6 +52,7 @@ phonecode.print_two_coord_words_table(result, max_combos=20)
 
 The codec uses **sequential phoneme analysis** to decode words unambiguously:
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 # Create a codec for encoding/decoding
 codec = phonecode.CoordsWordCodec(
@@ -67,6 +76,7 @@ print(msg)
 
 ## Finding Words for Coordinates
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 # Find words that encode specific coordinates
 target_coords = [(0, 0), (1, 1)]  # P-IY and T-AE
@@ -124,19 +134,17 @@ See `tapyoca/phonecode/phonecode.ipynb` for a complete interactive demo showing:
 
 # parquet_deformations
 
-I'm calling these [Parquet deformations](https://www.theguardian.com/artanddesign/alexs-adventures-in-numberland/2014/sep/09/crazy-paving-the-twisted-world-of-parquet-deformations#:~:text=In%20the%201960s%20an%20American,the%20regularity%20of%20the%20tiling.) but purest would lynch me. 
+I'm calling these [Parquet deformations](https://www.theguardian.com/artanddesign/alexs-adventures-in-numberland/2014/sep/09/crazy-paving-the-twisted-world-of-parquet-deformations#:~:text=In%20the%201960s%20an%20American,the%20regularity%20of%20the%20tiling.) but purest would lynch me.
 
-Really, I just wanted to transform one word into another word, gradually, as I've seen in some of [Escher's](https://en.wikipedia.org/wiki/M._C._Escher) work, so I looked it up, and saw that it's called parquet deformations. The math looked enticing, but I had no time for that, so I did the first way I could think of: Mapping pixels to pixels (in some fashion -- but nearest neighbors is the method that yields nicest results, under the pixel-level restriction). 
+Really, I just wanted to transform one word into another word, gradually, as I've seen in some of [Escher's](https://en.wikipedia.org/wiki/M._C._Escher) work, so I looked it up, and saw that it's called parquet deformations. The math looked enticing, but I had no time for that, so I did the first way I could think of: Mapping pixels to pixels (in some fashion -- but nearest neighbors is the method that yields nicest results, under the pixel-level restriction).
 
-Of course, this can be applied to any image (that will be transformed to B/W (not even gray -- I mean actual B/W), and there's several ways you can perform the parquet (I like the gif rendering). 
+Of course, this can be applied to any image (that will be transformed to B/W (not even gray -- I mean actual B/W), and there's several ways you can perform the parquet (I like the gif rendering).
 
 The main function (exposed as a script) is `mk_deformation_image`. All you need is to specify two images (or words). If you want, of course, you can specify:
 - `n_steps`: Number of steps from start to end image
 - `save_to_file`: path to file to save too (if not given, will just return the image object)
 - `kind`: 'gif', 'horizontal_stack', or 'vertical_stack'
-- `coordinate_mapping_maker`: A function that will return the mapping between start and end. 
-This function should return a pair (`from_coord`, `to_coord`) of aligned matrices whose 2 columns are the the 
-`(x, y)` coordinates, and the rows represent aligned positions that should be mapped. 
+- `coordinate_mapping_maker`: A function that will return the mapping between start and end. This function should return a pair (`from_coord`, `to_coord`) of aligned matrices whose 2 columns are the the `(x, y)` coordinates, and the rows represent aligned positions that should be mapped.
 
 
 
@@ -145,6 +153,7 @@ This function should return a pair (`from_coord`, `to_coord`) of aligned matrice
 ### Two words...
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 fit_to_size = 400
 start_im = image_of_text('sensor').rotate(90, expand=1)
@@ -160,6 +169,7 @@ start_and_end_image(start_im, end_im)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 im = mk_deformation_image(start_im, end_im, 15, kind='h').resize((500,200))
 im
@@ -173,6 +183,7 @@ im
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 im = mk_deformation_image(start_im.transpose(4), end_im.transpose(4), 5, kind='v').resize((200,200))
 im
@@ -186,6 +197,7 @@ im
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 f = 'sensor_meaning_knn.gif'
 mk_deformation_image(start_im.transpose(4), end_im.transpose(4), n_steps=20, save_to_file=f)
@@ -200,6 +212,7 @@ display_gif(f)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 f = 'sensor_meaning_scan.gif'
 mk_deformation_image(start_im.transpose(4), end_im.transpose(4), n_steps=20, save_to_file=f, 
@@ -215,6 +228,7 @@ display_gif(f)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 f = 'sensor_meaning_random.gif'
 mk_deformation_image(start_im.transpose(4), end_im.transpose(4), n_steps=20, save_to_file=f, 
@@ -232,6 +246,7 @@ display_gif(f)
 ### From a list of words
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 start_words = ['sensor', 'vibration', 'tempature']
 end_words = ['sense', 'meaning', 'detection']
@@ -248,6 +263,7 @@ start_and_end_image(start_im, end_im).resize((600, 200))
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 im = mk_deformation_image(start_im, end_im, 5)
 im
@@ -261,6 +277,7 @@ im
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 f = 'bunch_of_words.gif'
 mk_deformation_image(start_im, end_im, n_steps=20, save_to_file=f)
@@ -277,6 +294,7 @@ display_gif(f)
 ## From files
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 start_im = Image.open('sensor_strip_01.png')
 end_im = Image.open('sense_strip_01.png')
@@ -291,6 +309,7 @@ start_and_end_image(start_im.resize((200, 500)), end_im.resize((200, 500)))
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 im = mk_deformation_image(start_im, end_im, 7)
 im
@@ -304,6 +323,7 @@ im
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 f = 'medley.gif'
 mk_deformation_image(start_im, end_im, n_steps=20, save_to_file=f)
@@ -318,6 +338,7 @@ display_gif(f)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 mk_deformation_image(start_im, end_im, n_steps=20, save_to_file=f, coordinate_mapping_maker='scan')
 display_gif(f)
@@ -333,6 +354,7 @@ display_gif(f)
 ## an image and some text
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 start_im = 'img/waveform_01.png'  # will first look for a file, and if not consider as text
 end_im = 'makes sense'
@@ -356,31 +378,27 @@ display_gif('image_and_text.gif')
 
 ## What do we think about other peoples?
 
-This project is meant to get an idea of what people think of people for different nations, as seen by what they ask google about them. 
+This project is meant to get an idea of what people think of people for different nations, as seen by what they ask google about them.
 
-Here I use python code to acquire, clean up, and analyze the data. 
+Here I use python code to acquire, clean up, and analyze the data.
 
 ### Demonym
 
 If you're like me and enjoy the false and fleeting impression of superiority that comes when you know a word someone else doesn't. If you're like me and go to parties for the sole purpose of seeking victims to get a one-up on, here's a cool word to add to your arsenal:
 
-**demonym**: a noun used to denote the natives or inhabitants of a particular country, state, city, etc.
-_"he struggled for the correct demonym for the people of Manchester"_
+**demonym**: a noun used to denote the natives or inhabitants of a particular country, state, city, etc. _"he struggled for the correct demonym for the people of Manchester"_
 
 ### Back-story of this analysis
  
-During a discussion (about traveling in Europe) someone said "why are the swiss so miserable". Now, I wouldn't say that the swiss were especially miserable (a couple of ex-girlfriends aside), but to be fair he was contrasting with Italians, so perhaps he has a point. I apologize if you are swiss, or one of the two ex-girlfriends -- nothing personal, this is all for effect. 
+During a discussion (about traveling in Europe) someone said "why are the swiss so miserable". Now, I wouldn't say that the swiss were especially miserable (a couple of ex-girlfriends aside), but to be fair he was contrasting with Italians, so perhaps he has a point. I apologize if you are swiss, or one of the two ex-girlfriends -- nothing personal, this is all for effect.
 
 We googled "why are the swiss so ", and sure enough, "why are the swiss so miserable" came up as one of the suggestions. So we got curious and started googling other peoples: the French, the Germans, etc.
 
-That's the back-story of this analysis. This analysis is meant to get an idea of what we think of peoples from other countries. Of course, one can rightfully critique the approach I'll take to gauge "what we think" -- all three of these words should, but will not, be defined. I'm just going to see what google's *current* auto-suggest comes back with when I enter "why are the X so " (where X will be a noun that denotes the natives of inhabitants of a particular country; a *demonym* if you will). 
+That's the back-story of this analysis. This analysis is meant to get an idea of what we think of peoples from other countries. Of course, one can rightfully critique the approach I'll take to gauge "what we think" -- all three of these words should, but will not, be defined. I'm just going to see what google's *current* auto-suggest comes back with when I enter "why are the X so " (where X will be a noun that denotes the natives of inhabitants of a particular country; a *demonym* if you will).
 
 ### Warning
 
-Again, word of warning: All data and analyses are biased. 
-Take everything you'll read here (and to be fair, what you read anywhere) with a grain of salt. 
-For simplicitly I'll saying things like "what we think of..." or "who do we most...", etc.
-But I don't **really** mean that.
+Again, word of warning: All data and analyses are biased. Take everything you'll read here (and to be fair, what you read anywhere) with a grain of salt. For simplicitly I'll saying things like "what we think of..." or "who do we most...", etc. But I don't **really** mean that.
 
 ### Resources
 
@@ -392,7 +410,7 @@ But I don't **really** mean that.
 
 ### In a nutshell
 
-Below is listed 73 demonyms along with words extracted from the very first google suggestion when you type. 
+Below is listed 73 demonyms along with words extracted from the very first google suggestion when you type.
 
 `why are the DEMONYM so `
 
@@ -475,18 +493,12 @@ zambian   	                emeralds cheap
 
 Notes:
 * The queries actually have a space after the "so", which matters so as to omit suggestions containing words that start with so.
-* Only the tail of the suggestion is shown -- minus prefix (`why are the DEMONYM` or `why are DEMONYM`) as well as the `so`, where ever it lands in the suggestion. 
-For example, the first suggestion for the american demonym was "why are american dolls so expensive", which results in the "dolls expensive" association. 
+* Only the tail of the suggestion is shown -- minus prefix (`why are the DEMONYM` or `why are DEMONYM`) as well as the `so`, where ever it lands in the suggestion. For example, the first suggestion for the american demonym was "why are american dolls so expensive", which results in the "dolls expensive" association.
 
 
 ### Who do we most talk/ask about?
 
-The original list contained 217 demonyms, but many of these yielded no suggestions (to the specific query format I used, that is). 
-Only 73 demonyms gave me at least one suggestion. 
-But within those, number of suggestions range between 1 and 20 (which is probably the default maximum number of suggestions for the API I used). 
-So, pretending that the number of suggestions is an indicator of how much we have to say, or how many different opinions we have, of each of the covered nationalities, 
-here's the top 15 demonyms people talk about, with the corresponding number of suggestions 
-(proxy for "the number of different things people ask about the said nationality). 
+The original list contained 217 demonyms, but many of these yielded no suggestions (to the specific query format I used, that is). Only 73 demonyms gave me at least one suggestion. But within those, number of suggestions range between 1 and 20 (which is probably the default maximum number of suggestions for the API I used). So, pretending that the number of suggestions is an indicator of how much we have to say, or how many different opinions we have, of each of the covered nationalities, here's the top 15 demonyms people talk about, with the corresponding number of suggestions (proxy for "the number of different things people ask about the said nationality).
 
 ```text
 french         20
@@ -536,14 +548,9 @@ zambian         1
 
 Why are the French so...
 
-How would you (if you're (un)lucky enough to know the French) finish this sentence?
-You might even have several opinions about the French, and any other group of people you've rubbed shoulders with.
-What words would your palette contain to describe different nationalities?
-What words would others (at least those that ask questions to google) use?
+How would you (if you're (un)lucky enough to know the French) finish this sentence? You might even have several opinions about the French, and any other group of people you've rubbed shoulders with. What words would your palette contain to describe different nationalities? What words would others (at least those that ask questions to google) use?
 
-Well, here's what my auto-suggest search gave me. A set of 357 unique words and expressions to describe the 72 nationalities. 
-So a long tail of words use only for one nationality. But some words occur for more than one nationality. 
-Here are the top 12 words/expressions used to describe people of the world. 
+Well, here's what my auto-suggest search gave me. A set of 357 unique words and expressions to describe the 72 nationalities. So a long tail of words use only for one nationality. But some words occur for more than one nationality. Here are the top 12 words/expressions used to describe people of the world.
 
 ```text
 beautiful         11
@@ -581,12 +588,9 @@ successful     : chinese, english, japanese, lebanese, swiss
 
 I scraped a list of (country, demonym) pairs from a table in http://www.geography-site.co.uk/pages/countries/demonyms.html.
 
-Then I diagnosed these and manually made a mapping to simplify some "complex" entries, 
-such as mapping an entry such as "Irishman or Irishwoman or Irish" to "Irish".
+Then I diagnosed these and manually made a mapping to simplify some "complex" entries, such as mapping an entry such as "Irishman or Irishwoman or Irish" to "Irish".
 
-Using the google suggest API (http://suggestqueries.google.com/complete/search?client=chrome&q=), I requested what the suggestions 
-for `why are the $demonym so ` query pattern, for `$demonym` running through all 217 demonyms from the list above, 
-storing the results for each if the results were non-empty. 
+Using the google suggest API (http://suggestqueries.google.com/complete/search?client=chrome&q=), I requested what the suggestions for `why are the $demonym so ` query pattern, for `$demonym` running through all 217 demonyms from the list above, storing the results for each if the results were non-empty.
 
 Then, it was just a matter of pulling this data into memory, formatting it a bit, and creating a pandas dataframe that I could then interrogate.
  
@@ -601,7 +605,7 @@ Note you'll need to pip install py2store if you haven't already.
 In the `data` folder you'll find
 * country_demonym.p: A pickle of a dataframe of countries and corresponding demonyms
 * country_demonym.xlsx: The same as above, but in excel form
-* demonym_suggested_characteristics.p: A pickle of 73 demonyms and auto-suggestion information, including characteristics. 
+* demonym_suggested_characteristics.p: A pickle of 73 demonyms and auto-suggestion information, including characteristics.
 * what_we_think_about_demonyns.xlsx: An excel containing various statistics about demonyms and their (perceived) characteristics
  
 
@@ -619,9 +623,7 @@ So I wondered...
 
 ## Gluglus
 
-The gluglu of a word is the number of partitions you can make of that word into words (of length at least 2 (so no using a or i)).
-(No "gluglu" isn't an actual term -- unless everyone starts using it from now on. 
-But it was inspired from an actual [linguistic term](https://en.wikipedia.org/wiki/Agglutination).)
+The gluglu of a word is the number of partitions you can make of that word into words (of length at least 2 (so no using a or i)). (No "gluglu" isn't an actual term -- unless everyone starts using it from now on. But it was inspired from an actual [linguistic term](https://en.wikipedia.org/wiki/Agglutination).)
 
 For example, the gluglu of ``newspaper`` is 4:
 
@@ -657,11 +659,7 @@ formatannotationrelativeto
 
 ### Dictionary
 
-Really it depends on what dictionary we use. 
-Here, I used a very conservative one. 
-The intersection of two lists: The [corncob](http://www.mieliestronk.com/corncob_lowercase.txt) 
-and the [google10000](https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa.txt) word lists.
-Additionally, I only kept of those, those that had at least 2 letters, and had only letters (no hyphens or disturbing diacritics).
+Really it depends on what dictionary we use. Here, I used a very conservative one. The intersection of two lists: The [corncob](http://www.mieliestronk.com/corncob_lowercase.txt) and the [google10000](https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa.txt) word lists. Additionally, I only kept of those, those that had at least 2 letters, and had only letters (no hyphens or disturbing diacritics).
 
 Diacritics. Look it up. Impress your next nerd date.
 
@@ -669,14 +667,11 @@ Im left with 8116 words. You can find them [here](https://github.com/thorwhalen/
 
 ### Standard Lib Names
 
-Surprisingly, that was the hardest part. I know I'm missing some, but that's enough rabbit-holing. 
+Surprisingly, that was the hardest part. I know I'm missing some, but that's enough rabbit-holing.
 
-What I did (modulo some exceptions I won't look into) was to walk the standard lib modules (even that list wasn't a given!) 
-extracting (recursively( the names of any (non-underscored) attributes if they were modules or callables, 
-as well as extracting the arguments of these callables (when they had signatures).
+What I did (modulo some exceptions I won't look into) was to walk the standard lib modules (even that list wasn't a given!) extracting (recursively( the names of any (non-underscored) attributes if they were modules or callables, as well as extracting the arguments of these callables (when they had signatures).
 
-You can find the code I used to extract these names [here](https://github.com/thorwhalen/tapyoca/blob/master/tapyoca/agglutination/py_names.py) 
-and the actual list [there](https://github.com/thorwhalen/tapyoca/blob/master/tapyoca/agglutination/standard_lib_module_names.csv).
+You can find the code I used to extract these names [here](https://github.com/thorwhalen/tapyoca/blob/master/tapyoca/agglutination/py_names.py) and the actual list [there](https://github.com/thorwhalen/tapyoca/blob/master/tapyoca/agglutination/standard_lib_module_names.csv).
 
 
 
@@ -692,8 +687,7 @@ The module will show is how to make these:
 
 ### The script
 
-If you just want to run this as a script to get the job done, you have one here: 
-https://raw.githubusercontent.com/thorwhalen/tapyoca/master/covid/covid_bar_chart_race.py
+If you just want to run this as a script to get the job done, you have one here: https://raw.githubusercontent.com/thorwhalen/tapyoca/master/covid/covid_bar_chart_race.py
 
 Run like this
 ```
@@ -725,7 +719,7 @@ Corona virus data here: https://www.kaggle.com/sudalairajkumar/novel-corona-viru
 
 Population data here: http://api.worldbank.org/v2/en/indicator/SP.POP.TOTL?downloadformat=csv
 
-It comes under the form of a zip file (currently named `novel-corona-virus-2019-dataset.zip` with several `.csv` files in them. We use `py2store` (To install: `pip install py2store`. Project lives here: https://github.com/i2mint/py2store) to access and pre-prepare it. It allows us to not have to unzip the file and replace the older folder with it every time we download a new one. It also gives us the csvs as `pandas.DataFrame` already. 
+It comes under the form of a zip file (currently named `novel-corona-virus-2019-dataset.zip` with several `.csv` files in them. We use `py2store` (To install: `pip install py2store`. Project lives here: https://github.com/i2mint/py2store) to access and pre-prepare it. It allows us to not have to unzip the file and replace the older folder with it every time we download a new one. It also gives us the csvs as `pandas.DataFrame` already.
 
 
 ```python
@@ -785,17 +779,20 @@ class ZippedCsvs(ZipReader):
 ```
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 # Enter here the place you want to cache your data
 my_local_cache = os.path.expanduser('~/ddir/my_sources')
 ```
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 CachedFuncReader = mk_cached_store(FuncReader, QuickPickleStore(my_local_cache))
 ```
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 data_sources = CachedFuncReader([country_flag_image_url, 
                                  kaggle_coronavirus_dataset, 
@@ -813,6 +810,7 @@ list(data_sources)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 covid_datasets = ZippedCsvs(data_sources['kaggle_coronavirus_dataset'])
 list(covid_datasets)
@@ -833,6 +831,7 @@ list(covid_datasets)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 covid_datasets['time_series_covid_19_confirmed.csv'].head()
 ```
@@ -1010,6 +1009,7 @@ covid_datasets['time_series_covid_19_confirmed.csv'].head()
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 country_flag_image_url = data_sources['country_flag_image_url']
 country_flag_image_url.head()
@@ -1079,6 +1079,7 @@ country_flag_image_url.head()
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 from IPython.display import Image
 flag_image_url_of_country = country_flag_image_url.set_index('country')['flag_image_url']
@@ -1171,6 +1172,7 @@ def mk_and_save_country_data_for_data_kind(data_sources, kind='confirmed', skip_
 ```
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 # for kind in ['confirmed', 'deaths', 'recovered', 'confirmed_US', 'deaths_US']:
 for kind in ['confirmed', 'deaths', 'recovered', 'confirmed_US', 'deaths_US']:
@@ -1218,6 +1220,7 @@ from IPython.display import Image
 The manual data prep looks something like this.
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 import pandas as pd
 
@@ -1303,6 +1306,7 @@ country_image_url.head()
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 Image(url=image_url_of_country['Australia'])
 ```
@@ -1318,11 +1322,12 @@ Image(url=image_url_of_country['Australia'])
 
 Downloading our data sources every time we need them is not sustainable. What if they're big? What if you're offline or have slow internet (yes, dear future reader, even in the US, during coronavirus times!)?
 
-Caching. A "cache aside" read-cache. That's the word. py2store has tools for that (most of which are are caching.py). 
+Caching. A "cache aside" read-cache. That's the word. py2store has tools for that (most of which are are caching.py).
 
 So let's say we're going to have a local folder where we'll store various datas we download. The principle is as follows:
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 from py2store.caching import mk_cached_store
 
@@ -1346,13 +1351,13 @@ print("... so the next time the_cached_source will get it's green from that the_
     ... so the next time the_cached_source will get it's green from that the_cache
 
 
-But now, you'll notice a slight problem ahead. What exactly does our source store (or rather reader) looks like? In it's raw form it would take urls as it's keys, and the response of a request as it's value. That store wouldn't have an `__iter__` for sure (unless you're Google). But more to the point here, the `mk_cached_store` tool uses the same key for the source and the cache, and we can't just use the url as is, to be a local file path. 
+But now, you'll notice a slight problem ahead. What exactly does our source store (or rather reader) looks like? In it's raw form it would take urls as it's keys, and the response of a request as it's value. That store wouldn't have an `__iter__` for sure (unless you're Google). But more to the point here, the `mk_cached_store` tool uses the same key for the source and the cache, and we can't just use the url as is, to be a local file path.
 
 There's many ways we could solve this. One way is to add a key map layer on the cache store, so externally, it speaks the url key language, but internally it will map that url to a valid local file path. We've been there, we got the T-shirt!
 
 But what we're going to do is a bit different: We're going to do the key mapping in the source store itself. It seems to make more sense in our context: We have a data source of `name: data` pairs, and if we impose that the name should be a valid file name, we don't need to have a key map in the cache store.
 
-So let's start by building this `MyDataStore` store. We'll start by defining the functions that get us the data we want. 
+So let's start by building this `MyDataStore` store. We'll start by defining the functions that get us the data we want.
 
 
 ```python
@@ -1432,6 +1437,7 @@ list(data_sources)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 data_sources['country_flag_image_url']
 ```
@@ -1537,6 +1543,7 @@ data_sources['country_flag_image_url']
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 data_sources['country_flag_image_url']
 ```
@@ -1821,6 +1828,7 @@ data_sources['city_population_in_time']
 But we wanted this all to be cached locally, right? So a few more lines to do that!
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 from py2store.caching import mk_cached_store
 from py2store import QuickPickleStore
@@ -1831,6 +1839,7 @@ CachedFuncReader = mk_cached_store(FuncReader, QuickPickleStore(my_local_cache))
 ```
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 data_sources = CachedFuncReader([country_flag_image_url, kaggle_coronavirus_dataset, city_population_in_time])
 list(data_sources)
@@ -1846,6 +1855,7 @@ list(data_sources)
 
 
 
+<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 data_sources['country_flag_image_url']
 ```
