@@ -788,7 +788,7 @@ my_local_cache = os.path.expanduser('~/ddir/my_sources')
 
 <!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
-CachedFuncReader = mk_cached_store(FuncReader, QuickPickleStore(my_local_cache))
+CachedFuncReader = mk_cached_store(FuncReader, cache=QuickPickleStore(my_local_cache))
 ```
 
 
@@ -1327,13 +1327,12 @@ Caching. A "cache aside" read-cache. That's the word. py2store has tools for tha
 So let's say we're going to have a local folder where we'll store various datas we download. The principle is as follows:
 
 
-<!-- wads-docs: skip needs downloaded data, network or reader state -->
 ```python
 from py2store.caching import mk_cached_store
 
 class TheSource(dict): ...
 the_cache = {}
-TheCacheSource = mk_cached_store(TheSource, the_cache)
+TheCacheSource = mk_cached_store(TheSource, cache=the_cache)
 
 the_source = TheSource({'green': 'eggs', 'and': 'ham'})
 
@@ -1835,7 +1834,7 @@ from py2store import QuickPickleStore
     
 my_local_cache = os.path.expanduser('~/ddir/my_sources')
 
-CachedFuncReader = mk_cached_store(FuncReader, QuickPickleStore(my_local_cache))
+CachedFuncReader = mk_cached_store(FuncReader, cache=QuickPickleStore(my_local_cache))
 ```
 
 
